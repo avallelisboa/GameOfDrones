@@ -1,0 +1,6 @@
+@GameOfDrones_HostAddress = http://localhost:5212
+
+GET {{GameOfDrones_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
