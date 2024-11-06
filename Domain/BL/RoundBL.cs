@@ -1,9 +1,12 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Domain.BL
 {
@@ -26,6 +29,28 @@ namespace Domain.BL
                 return 1;
             else
                 return 2;
+        }
+        public static GameStatus UpdateRoundResult(Game theGame)
+        {
+            GameStatus aStatus = new GameStatus(true, "");
+
+            Round currentRound = theGame.Rounds[theGame.CurrentRoundNumber - 1];
+            Move playerOneMove = currentRound.PlayerOneMove;
+            Move playerTwoMove = currentRound.PlayerTwoMove;
+
+            int winnerNumber = GetRoundWinner(currentRound);
+            if (winnerNumber == 1)
+            {
+                theGame.playerOne.Wins++;
+                currentRound.Winner = theGame.playerOne;
+            }
+            if (winnerNumber == 2)
+            {
+                theGame.playerTwo.Wins++;
+                currentRound.Winner = theGame.playerTwo;
+            }
+            aStatus.RoundWinnerPlayerNumber = winnerNumber;
+            return aStatus;
         }
     }
 }

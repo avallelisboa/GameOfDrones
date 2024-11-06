@@ -14,11 +14,7 @@ namespace Domain.BL
     {
         public static Result IsMoveValid(int playerNumber, int move)
         {
-            Result aResult = new Result
-            {
-                IsValid = false,
-                Message = ""
-            };
+            Result aResult = new Result(false, "");
             if (move > 2 || move < 0)
             {
                 aResult.Message = "The move does not exist";

@@ -12,12 +12,8 @@ namespace Domain.BL
     {
         public static Result IsPlayerValid(int playerNumber, Game theGame)
         {
-            Result aResult = new Result
-            {
-                IsValid = false,
-                Message = ""
-            };
-            int roundNumber = theGame.CurrentRound;
+            Result aResult = new Result(false, "");
+            int roundNumber = theGame.CurrentRoundNumber;
             Round aRound = theGame.Rounds[roundNumber - 1];
 
             if (playerNumber > 2 || playerNumber < 1)

@@ -13,11 +13,7 @@ namespace Domain.BL
     {
         public static Result IsGameValid(Game theGame)
         {
-            Result aResult = new Result
-            {
-                IsValid = false,
-                Message = ""
-            };
+            Result aResult = new Result(false, "");
 
             if (!theGame.IsValid())
                aResult.Message = "The game was not founded";
@@ -27,7 +23,7 @@ namespace Domain.BL
         }
         public static bool BothPlayersHaveMoved(Game theGame)
         {
-            int roundNumber = theGame.CurrentRound;
+            int roundNumber = theGame.CurrentRoundNumber;
             Round aRound = theGame.Rounds[roundNumber - 1];
             return aRound.PlayerOneMove != null && aRound.PlayerTwoMove != null;
         }

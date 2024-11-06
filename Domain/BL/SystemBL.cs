@@ -10,14 +10,14 @@ using static Domain.Entities.Move;
 
 namespace Domain.BL
 {
-    public class System
+    public class SystemBL
     {
-        private static System _instance;
-        private System() { }
-        public static System GetInstance()
+        private static SystemBL _instance;
+        private SystemBL() { }
+        public static SystemBL GetInstance()
         {
             if(_instance == null)
-                _instance = new System();
+                _instance = new SystemBL();
 
             return _instance;
         }
@@ -39,9 +39,9 @@ namespace Domain.BL
 
             return aGame;
         }
-        public void EndGame(Guid theId)
+        public void EndGame(Game theGame)
         {
-            _games.Remove(_games.FirstOrDefault(g => g.Id == theId));
+            _games.Remove(theGame);
         }
         public GameStatus MakeMove(Guid gameId, int playerNumber, int move)
         {
@@ -59,37 +59,26 @@ namespace Domain.BL
             if (!moveValidationResult.IsValid)
                 return (GameStatus)moveValidationResult;
 
-            int currentRound = aGame.CurrentRound;
+            int currentRound = aGame.CurrentRoundNumber;
             Round aRound = aGame.Rounds[currentRound - 1];
             MoveBL.Move(currentRound, playerNumber, move, aGame);
 
             if (GameBL.BothPlayersHaveMoved(aGame))
             {
-                int winnerNumber = RoundBL.GetRoundWinner(aGame.Rounds[aGame.CurrentRound - 1]);
-                if (winnerNumber == 1)
-                    aGame.playerOne.Wins++;
-                if (winnerNumber == 2)
-                    aGame.playerTwo.Wins++;
+                GameStatus aStatus = RoundBL.UpdateRoundResult(aGame);
 
-                aGame.CurrentRound++;
-
-                GameStatus aStatus = new GameStatus();
-
-                aStatus.IsValid = true;
-                aStatus.Message = "";
-                aStatus.RoundWinnerPlayerNumber = winnerNumber;
+                aGame.CurrentRoundNumber++;
 
                 if (GameBL.HasGameEnded(aGame))
+                {
                     aStatus.GameWinnerPlayerNumber = GameBL.GetGameWinnerNumber(aGame);
+                    EndGame(aGame);
+                }
 
                 return aStatus;
             }          
 
-            return new GameStatus
-            {
-                IsValid = true,
-                Message = ""
-            };
+            return new GameStatus(true, "");
         }
     }
 }

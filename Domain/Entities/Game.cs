@@ -13,12 +13,12 @@ namespace Domain.Entities
         public Player playerOne { get; set; }
         public Player playerTwo { get; set; }
         public Round[] Rounds;
-        public int CurrentRound;
+        public int CurrentRoundNumber;
         public Game(int theNumberOfRounds, Player thePlayerOne, Player thePlayerTwo)
         {
             Id = Guid.NewGuid();
             Rounds = new Round[theNumberOfRounds];
-            CurrentRound = 1;
+            CurrentRoundNumber = 1;
             playerOne = thePlayerOne;
             playerTwo = thePlayerTwo;
         }

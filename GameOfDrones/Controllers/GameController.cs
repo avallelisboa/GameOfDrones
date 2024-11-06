@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Domain.BL;
 
 namespace GameOfDrones.Controllers
 {
@@ -10,19 +11,17 @@ namespace GameOfDrones.Controllers
         [HttpGet]
         public IActionResult NewGame(string playerOneName, string playerTwoName)
         {
-            try
+            Guid id = SystemBL.GetInstance().MakeGame(playerOneName, playerTwoName);
+            return Ok(new
             {
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+                gameId = id,
+            });
         }
-        [HttpGet]
-        public IActionResult setMove(int gameId,string playerOneMove, string playerTwoMove) {
-            return Ok();
-        }
+        [HttpPost]
+        public IActionResult MakeMove(Guid gameId,int playerNumber, int playerMove)
+        {
+            var result = SystemBL.GetInstance().MakeMove(gameId, playerNumber, playerMove);
+            return Ok(result);
+        }            
     }
 }

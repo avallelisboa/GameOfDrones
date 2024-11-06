@@ -8,6 +8,12 @@ namespace Domain.DTOs
 {
     public class Result
     {
+        public Result() { }
+        public Result(bool theIsValid, string theMessage)
+        {
+            IsValid = theIsValid;
+            Message = theMessage;
+        }
         public bool IsValid;
         public string Message;
     }

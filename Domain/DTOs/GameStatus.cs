@@ -9,6 +9,9 @@ namespace Domain.DTOs
 {
     public class GameStatus : Result
     {
+        public GameStatus() { }
+        public GameStatus(bool theIsValid,string theMessage):base(theIsValid,theMessage) { }
+
         public int RoundWinnerPlayerNumber;
         public int GameWinnerPlayerNumber;
     }
