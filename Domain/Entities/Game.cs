@@ -18,6 +18,11 @@ namespace Domain.Entities
         {
             Id = Guid.NewGuid();
             Rounds = new Round[theNumberOfRounds];
+            int length = Rounds.Length;
+            for (int i = 0; i < length; i++)
+            {
+                Rounds[i] = new Round();
+            }
             CurrentRoundNumber = 1;
             playerOne = thePlayerOne;
             playerTwo = thePlayerTwo;

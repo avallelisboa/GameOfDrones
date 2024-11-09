@@ -1,0 +1,18 @@
+<section>
+    <article>
+        <form #newGameForm="ngForm" (ngSubmit)="onSubmit()" class="form">
+            <legend>Enter Player's Names</legend>
+            <fieldset class="form-group">
+                <label class="form-label" for="playerOneName">Player 1</label>
+                <input class="form-input" type="text" [(ngModel)]="aNewGame.playerOneName" id="playerOneName" name="playerOneName" required>
+            </fieldset>
+            <fieldset class="form-group">
+                <label class="form-label" for="playerTwoName">Player 2</label>
+                <input class="form-input" type="text" [(ngModel)]="aNewGame.playerTwoName" id="playerTwoName" name="playerTwoName" required>
+            </fieldset>
+            <fieldset class="form-group">
+                <input type="submit" class="btn btn-primary" value="Start">
+            </fieldset>
+        </form>
+    </article>
+</section>

@@ -1,0 +1,32 @@
+<section>
+    <article>
+        <h2>Round {{round}}</h2>
+    </article>
+    <article>
+        <form #playerOneForm="ngForm" (ngSubmit)="NextPlayer()" class="form" *ngIf="isPlayerOneTurn">
+            <legend>{{playerOneName}}</legend>
+            <fieldset class="form-group">
+                <label class="form-label">Select Move:</label>
+                <select class="form-input" name="playerOneMove" id="playerOneMove" [(ngModel)]="moves.playerOneMove">
+                    <option *ngFor="let move of posibleMove" [value]="move.value">{{move.name}}</option>
+                </select>
+            </fieldset>
+            <fieldset>
+                <input class="btn btn-primary" type="submit" value="Ok"/>
+            </fieldset>           
+        </form>        
+        <form #playerTwoForm="ngForm" (ngSubmit)="EndRound()" class="form" *ngIf="isPlayerTwoTurn">
+            <legend>{{playerTwoName}}</legend>
+            <fieldset class="form-group">
+                <label class="form-label">Select Move:</label>
+                <select class="form-input" name="playerTwoMove" id="playerTwoMove" [(ngModel)]="moves.playerTwoMove">
+                    <option *ngFor="let move of posibleMove" [value]="move.value">{{move.name}}</option>
+                </select>
+            </fieldset> 
+            <fieldset>
+                <input class="btn btn-primary" type="submit" value="Ok"/>
+            </fieldset>           
+        </form>  
+        <app-score *ngIf="roundsWinners.length > 0" [RoundsWinners]="roundsWinners"/>
+    </article>
+</section>

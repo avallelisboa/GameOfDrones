@@ -13,7 +13,10 @@ namespace Domain.BL
     public class SystemBL
     {
         private static SystemBL _instance;
-        private SystemBL() { }
+        private SystemBL() 
+        {
+            _games = new List<Game>();
+        }
         public static SystemBL GetInstance()
         {
             if(_instance == null)
@@ -49,15 +52,24 @@ namespace Domain.BL
 
             Result gameValidationResult = GameBL.IsGameValid(aGame);
             if (!gameValidationResult.IsValid)
-                return (GameStatus)gameValidationResult;
+            {
+                GameStatus aStatus = new GameStatus(gameValidationResult.IsValid, gameValidationResult.Message);
+                return aStatus;
+            }
 
             Result playerValidationResult = PlayerBL.IsPlayerValid(playerNumber, aGame);
             if (!playerValidationResult.IsValid)
-                return (GameStatus)playerValidationResult;
+            {
+                GameStatus aStatus = new GameStatus(playerValidationResult.IsValid, playerValidationResult.Message);
+                return aStatus;
+            }
 
             Result moveValidationResult = MoveBL.IsMoveValid(playerNumber, move);
             if (!moveValidationResult.IsValid)
-                return (GameStatus)moveValidationResult;
+            {
+                GameStatus aStatus = new GameStatus(moveValidationResult.IsValid, moveValidationResult.Message);
+                return aStatus;
+            }
 
             int currentRound = aGame.CurrentRoundNumber;
             Round aRound = aGame.Rounds[currentRound - 1];
