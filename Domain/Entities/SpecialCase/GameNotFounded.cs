@@ -8,7 +8,7 @@ namespace Domain.Entities.SpecialCase
 {
     public class GameNotFounded : Game
     {
-        public GameNotFounded() : base(0, null, null){}
+        public GameNotFounded() : base(null, null){}
 
         public override bool IsValid()
         {

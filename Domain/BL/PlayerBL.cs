@@ -14,18 +14,27 @@ namespace Domain.BL
         {
             Result aResult = new Result(false, "");
             int roundNumber = theGame.CurrentRoundNumber;
-            Round aRound = theGame.Rounds[roundNumber - 1];
-
             if (playerNumber > 2 || playerNumber < 1)
                 aResult.Message = "The player does not exist";
-            
-            else if(playerNumber == 1 && aRound.PlayerOneMove != null)
-                aResult.Message = "The player one has already moved";
-            
-            else if (playerNumber == 2 && aRound.PlayerTwoMove != null)
-                aResult.Message = "The player two has already moved";
-            
-            else aResult.IsValid = true;
+
+            else
+            {
+                if (theGame.Rounds.Count < roundNumber)
+                    aResult.IsValid = true;
+                else { 
+                    Round aRound = theGame.Rounds[roundNumber - 1];
+                    if (aRound == null)
+                        aResult.IsValid = true;
+
+                    else if (playerNumber == 1 && aRound.PlayerOneMove != null)
+                        aResult.Message = "The player one has already moved";
+
+                    else if (playerNumber == 2 && aRound.PlayerTwoMove != null)
+                        aResult.Message = "The player two has already moved";
+
+                    else aResult.IsValid = true;
+                }
+            }
 
             return aResult;
         }

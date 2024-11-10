@@ -29,8 +29,7 @@ namespace Domain.BL
         {
             Player playerOne = new Player(playerOneName);
             Player playerTwo = new Player(playerTwoName);
-            int numberOfRound = 5;
-            Game aGame = new Game(numberOfRound, playerOne, playerTwo);
+            Game aGame = new Game(playerOne, playerTwo);
             _games.Add(aGame);
             return aGame.Id;
         }
@@ -71,9 +70,7 @@ namespace Domain.BL
                 return aStatus;
             }
 
-            int currentRound = aGame.CurrentRoundNumber;
-            Round aRound = aGame.Rounds[currentRound - 1];
-            MoveBL.Move(currentRound, playerNumber, move, aGame);
+            MoveBL.Move(playerNumber, move, aGame);
 
             if (GameBL.BothPlayersHaveMoved(aGame))
             {

@@ -23,8 +23,7 @@ namespace Domain.BL
         }
         public static bool BothPlayersHaveMoved(Game theGame)
         {
-            int roundNumber = theGame.CurrentRoundNumber;
-            Round aRound = theGame.Rounds[roundNumber - 1];
+            Round aRound = theGame.Rounds.Last();
             return aRound.PlayerOneMove != null && aRound.PlayerTwoMove != null;
         }
         public static bool HasGameEnded(Game theGame)

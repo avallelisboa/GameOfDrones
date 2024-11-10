@@ -12,17 +12,12 @@ namespace Domain.Entities
         public Guid Id { get; private set; }
         public Player playerOne { get; set; }
         public Player playerTwo { get; set; }
-        public Round[] Rounds;
+        public List<Round> Rounds;
         public int CurrentRoundNumber;
-        public Game(int theNumberOfRounds, Player thePlayerOne, Player thePlayerTwo)
+        public Game(Player thePlayerOne, Player thePlayerTwo)
         {
             Id = Guid.NewGuid();
-            Rounds = new Round[theNumberOfRounds];
-            int length = Rounds.Length;
-            for (int i = 0; i < length; i++)
-            {
-                Rounds[i] = new Round();
-            }
+            Rounds = new List<Round>();
             CurrentRoundNumber = 1;
             playerOne = thePlayerOne;
             playerTwo = thePlayerTwo;

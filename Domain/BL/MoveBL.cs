@@ -24,21 +24,44 @@ namespace Domain.BL
 
             return aResult;
         }
-        public static void Move(int currentRound, int playerNumber, int move, Game theGame)
+        private static void AddFirstMoveOfTheRound(int playerNumber, int move, Game theGame)
         {
-            Round aRound = theGame.Rounds[currentRound - 1];
+            Round aRound = new Round();
+            Move aMove = new Move();
+            aMove.MovingName = (MovingType)move;
             if (playerNumber == 1)
             {
-                Move aMove = new Move();
-                aMove.MovingName = (MovingType)move;
                 aRound.PlayerOneMove = aMove;
             }
             if (playerNumber == 2)
             {
-                Move aMove = new Move();
-                aMove.MovingName = (MovingType)move;
                 aRound.PlayerTwoMove = aMove;
             }
+            theGame.Rounds.Add(aRound);
+        }
+        private static void AddLastMoveOfTheRound(int playerNumber, int move,int currentRound, Game theGame)
+        {
+            Move aMove = new Move();
+            aMove.MovingName = (MovingType)move;
+            if (playerNumber == 1)
+            {
+                theGame.Rounds[currentRound - 1].PlayerOneMove = aMove;
+            }
+            if (playerNumber == 2)
+            {
+                theGame.Rounds[currentRound - 1].PlayerTwoMove = aMove;
+            }
+        }
+        
+        public static void Move(int playerNumber, int move, Game theGame)
+        {
+            
+            int currentRound = theGame.CurrentRoundNumber;
+            int count = theGame.Rounds.Count;
+            if (count < currentRound)
+                AddFirstMoveOfTheRound(playerNumber, move, theGame);
+            else
+                AddLastMoveOfTheRound(playerNumber, move, currentRound, theGame);
         }
     }
 }
