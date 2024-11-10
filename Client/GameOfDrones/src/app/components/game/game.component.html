@@ -26,7 +26,11 @@
             <fieldset>
                 <input class="btn btn-primary" type="submit" value="Ok"/>
             </fieldset>           
-        </form>  
+        </form>
+        <div *ngIf="isThereAWinner">
+            <p>The winner is {{winnerName}}</p>
+            <p>Press F5 to start a new game</p>
+        </div>
         <app-score *ngIf="roundsWinners.length > 0" [RoundsWinners]="roundsWinners"/>
     </article>
 </section>

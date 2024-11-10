@@ -25,6 +25,8 @@ export class Game {
 
   public isPlayerOneTurn = true;
   public isPlayerTwoTurn = false;
+  public isThereAWinner = false;
+  public winnerName =  "";
   public round = 1;
   public posibleMove = [
     { 
@@ -43,22 +45,38 @@ export class Game {
   public moves:PlayersMoves = new PlayersMoves(0, 0);
 
   NextPlayer(){
-    const result = this._gameService.MakeMoveService(this.gameId,1,this.moves.playerOneMove);
-    result.then(result => console.log(result));
+    const response = this._gameService.MakeMoveService(this.gameId,1,this.moves.playerOneMove);
+    response.then(result => {
+      console.log(result)
+        if(result.isValid){
+          this.isPlayerOneTurn = false;
+          this.isPlayerTwoTurn = true;
+        }  
+    });    
     
-    this.isPlayerOneTurn = false;
-    this.isPlayerTwoTurn = true;
   }
   EndRound(){
-    const result = this._gameService.MakeMoveService(this.gameId,2,this.moves.playerTwoMove);
-    result.then(result => console.log(result));
+    const response = this._gameService.MakeMoveService(this.gameId,2,this.moves.playerTwoMove);
+    response.then(result =>{
+      console.log(result)
+      if(result.isValid){
+        this.moves.playerOneMove = 0;
+        this.moves.playerTwoMove = 0;
+        let roundWinnerName = result.roundWinner == 0 ? "draw" : result.roundWinner == 1 ? this.playerOneName : this.playerTwoName;
+        this.roundsWinners.push(new RoundWinner(this.round,roundWinnerName));
+        if(result.gameWinner == 0){
+          this.round++;          
+          this.isPlayerOneTurn = true;
+          this.isPlayerTwoTurn = false;
+        }else{
+          this.isThereAWinner = true;
+          this.winnerName = result.gameWinner == 1 ? this.playerOneName : this.playerTwoName;
+          this.isPlayerOneTurn = false;
+          this.isPlayerTwoTurn = false;
+        }
+      }
+    });
 
-    this.moves.playerOneMove = 0;
-    this.moves.playerTwoMove = 0;
-
-    this.round++;
-
-    this.isPlayerOneTurn = true;
-    this.isPlayerTwoTurn = false;
+    
   }
 }
